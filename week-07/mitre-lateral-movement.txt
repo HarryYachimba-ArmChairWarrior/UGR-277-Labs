@@ -1,0 +1,77 @@
+Lateral Movement
+The adversary is trying to move through your environment.
+
+Lateral Movement consists of techniques that adversaries use to enter and control remote systems on a network. Following through on their primary objective often requires exploring the network to find their target, then pivoting through multiple systems and accounts to gain access to it. Adversaries might install their own remote access tools to accomplish Lateral Movement or use legitimate credentials with native network and operating system tools, which may be stealthier.
+
+
+
+Remote Services
+Adversaries may use Valid Accounts to log into a service that accepts remote connections, such as telnet, SSH, and VNC. The adversary may then perform actions as the logged-on user.
+
+In an enterprise environment, servers and workstations can be organized into domains. Domains provide centralized identity management, allowing users to login using one set of credentials across the entire network. If an adversary is able to obtain a set of valid domain credentials, they could login to many different machines using remote access protocols such as secure shell (SSH) or remote desktop protocol (RDP).[1][2] They could also login to accessible SaaS or IaaS services, such as those that federate their identities to the domain, or management platforms for internal virtualization environments such as VMware vCenter.
+
+Legitimate applications (such as Software Deployment Tools and other administrative programs) may utilize Remote Services to access remote hosts. For example, Apple Remote Desktop (ARD) on macOS is native software used for remote management. ARD leverages a blend of protocols, including VNC to send the screen and control buffers and SSH for secure file transfer.[3][4][5] Adversaries can abuse applications such as ARD to gain remote code execution and perform lateral movement. In versions of macOS prior to 10.14, an adversary can escalate an SSH session to an ARD session which enables an adversary to accept TCC (Transparency, Consent, and Control) prompts without user interaction and gain access to data.[6][7][4]
+
+G0143	Aquatic Panda	
+Aquatic Panda used remote scheduled tasks to install malicious software on victim systems during lateral movement actions.[8]
+
+G0102	Wizard Spider	
+Wizard Spider has used the WebDAV protocol to execute Ryuk payloads hosted on network file shares.[14]
+
+S1063	Brute Ratel C4	
+Brute Ratel C4 has the ability to use RPC for lateral movement.[9]
+
+
+
+Remote Services: SMB/Windows Admin Shares
+Adversaries may use Valid Accounts to interact with a remote network share using Server Message Block (SMB). The adversary may then perform actions as the logged-on user.
+
+SMB is a file, printer, and serial port sharing protocol for Windows machines on the same network or domain. Adversaries may use SMB to interact with file shares, allowing them to move laterally throughout a network. Linux and macOS implementations of SMB typically use Samba.
+
+Windows systems have hidden network shares that are accessible only to administrators and provide the ability for remote file copy and other administrative functions. Example network shares include C$, ADMIN$, and IPC$. Adversaries may use this technique in conjunction with administrator-level Valid Accounts to remotely access a networked system over SMB,[1] to interact with systems using remote procedure calls (RPCs),[2] transfer files, and run transferred binaries through remote Execution. Example execution techniques that rely on authenticated sessions over SMB/RPC are Scheduled Task/Job, Service Execution, and Windows Management Instrumentation. Adversaries can also use NTLM hashes to access administrator shares on systems with Pass the Hash and certain configuration and patch levels.[3]
+
+S0532	Lucifer	
+Lucifer can infect victims by brute forcing SMB.[53]
+
+S0365	Olympic Destroyer	
+Olympic Destroyer uses PsExec to interact with the ADMIN$ network share to execute commands on remote systems.[62][61]
+
+S0446	Ryuk	
+Ryuk has used the C$ network share for lateral movement.[72]
+
+
+
+Remote Services: Remote Desktop Protocol
+Adversaries may use Valid Accounts to log into a computer using the Remote Desktop Protocol (RDP). The adversary may then perform actions as the logged-on user.
+
+Remote desktop is a common feature in operating systems. It allows a user to log into an interactive session with a system desktop graphical user interface on a remote system. Microsoft refers to its implementation of the Remote Desktop Protocol (RDP) as Remote Desktop Services (RDS).[1]
+
+Adversaries may connect to a remote system over RDP/RDS to expand access if the service is enabled and allows access to accounts with known credentials. Adversaries will likely use Credential Access techniques to acquire credentials to use with RDP. Adversaries may also use RDP in conjunction with the Accessibility Features or Terminal Services DLL for Persistence.[2]
+
+G1024	Akira	
+Akira has used RDP for lateral movement.[6]
+
+G0091	Silence	
+Silence has used RDP for lateral movement.[78]
+
+G1055	VOID MANTICORE	
+VOID MANTICORE has used RDP to move laterally within the victim environment.[80]
+
+
+
+Use Alternate Authentication Material: Pass the Hash
+Adversaries may "pass the hash" using stolen password hashes to move laterally within an environment, bypassing normal system access controls. Pass the hash (PtH) is a method of authenticating as a user without having access to the user's cleartext password. This method bypasses standard authentication steps that require a cleartext password, moving directly into the portion of the authentication that uses the password hash.
+
+When performing PtH, valid password hashes for the account being used are captured using a Credential Access technique. Captured hashes are used with PtH to authenticate as that user. Once authenticated, PtH may be used to perform actions on local or remote systems.
+
+Adversaries may also use stolen password hashes to "overpass the hash." Similar to PtH, this involves using a password hash to authenticate as a user but also uses the password hash to create a valid Kerberos ticket. This ticket can then be used to perform Pass the Ticket attacks.[1]
+
+S0488	CrackMapExec	
+CrackMapExec can pass the hash to authenticate via SMB.[11]
+
+C0002	Night Dragon	
+During Night Dragon, threat actors used pass-the-hash tools to obtain authenticated access to sensitive internal desktops and servers.[21]
+
+G0114	Chimera	
+Chimera has dumped password hashes for use in pass the hash authentication attacks.[9]
+
