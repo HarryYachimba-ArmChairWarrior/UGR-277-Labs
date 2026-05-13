@@ -34,3 +34,6 @@
 ## 5. Reflection
 One surprising aspect of RAG systems was how strongly the quality of the uploaded documents affected the chatbot’s responses. The chatbot performed significantly better when the documents contained detailed MITRE ATT&CK descriptions and examples. The lab also demonstrated how embeddings and vector retrieval allow a language model to answer questions using external knowledge instead of relying entirely on pretrained model memory.
 For real-world use, the chatbot could be improved with additional cybersecurity frameworks, persistent vector databases, and more structured document sources. RAG systems like this could also be useful in a capstone project for threat intelligence analysis, security operations support, or cybersecurity training assistants.
+
+## Chatbox Share Link
+https://cloud.flowiseai.com/chatbot/f514187a-c0e2-4098-88d3-28e32faf81c9
